@@ -1,0 +1,71 @@
+{% extends 'base.html'%}
+
+{% block title %}
+<title>Not So Universal Search Engine</title>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<button class="orange darken-4 btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+</form>
+<div class="col s12 l8" style="margin-top: 20px;">
+
+	{% for product in products %}
+	<div class="z-depth-4 row">
+		<div style="padding: 20px; padding-left: 30px; padding-right: 30px ">
+
+			<h3> {{ product.title }}</h3>
+			<div class="row">
+				<div class="col s6 l6">
+					<div class="carousel">
+
+						{% for image in product.image %}
+						<a class="carousel-item" href="#"><img src="{{ image }}"></a>
+						{% endfor %}
+
+					</div>
+				</div>
+				<div class="col s6">
+					ASIN: {{ product.asin }} <br>
+
+					Brand: {{ product.brand }}<br>
+					<h3 class="orange darken-4 white-text z-depth-1" style="border-radius: 10px; padding: 5px; width: 30%;">
+						${{ product.price }}
+					</h3>
+					<br>
+					Features:
+					{% for feature in product.feature %}
+					<li>
+						{{ feature }}
+					</li>
+					<br>
+					{% endfor %}
+
+				</div>
+			</div>
+
+
+		</div>
+
+	</div>
+	{% endfor %}
+	<br>
+</div>
+{% endblock %}
+
+{% block customjs %}
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	var elems = document.querySelectorAll('.carousel');
+	var instances = M.Carousel.init(elems, options);
+	});
+
+	// Or with jQuery
+
+	$(document).ready(function(){
+	$('.carousel').carousel();
+	});
+</script>
+{% endblock %}
